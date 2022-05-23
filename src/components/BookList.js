@@ -1,25 +1,21 @@
-import React, { Component } from "react";
-import { ThemeContext } from "../contexts/ThemeContext";
+import React, { useContext } from "react";
+import { BookContext } from "../contexts/BookContext";
+import BookDetails from "./BookDetails";
 
-class BookList extends Component {
-  static contextType = ThemeContext;
-  render() {
-    console.log(this.context);
-    const { isLightTheme, light, dark } = this.context;
-    const theme = isLightTheme ? light : dark;
-    return (
-      <div
-        className="book-list"
-        style={{ color: theme.syntax, background: theme.bg }}
-      >
-        <ul>
-          <li style={{ background: theme.ui }}>The Way of Kings</li>
-          <li style={{ background: theme.ui }}>The Name Of The Wind</li>
-          <li style={{ background: theme.ui }}>The Final Empire</li>
-        </ul>
-      </div>
-    );
-  }
-}
+const BookList = () => {
+  const { books } = useContext(BookContext);
+
+  return books.length ? (
+    <div className="book-list">
+      <ul>
+        {books.map((book) => {
+          return <BookDetails book={book} key={book.id} />;
+        })}
+      </ul>
+    </div>
+  ) : (
+    <div className="empty">No books to read. Hello free time!</div>
+  );
+};
 
 export default BookList;
